@@ -11,7 +11,7 @@ SEXP pred_rpart(SEXP dimx, SEXP nnode, SEXP nsplit, SEXP dimc,
 
 static const R_CallMethodDef CallEntries[] = {
     {"init_rpcallback", (DL_FUNC) &init_rpcallback, 5},
-    {"rpart", (DL_FUNC) &rpart, 11},
+    {"rpart", (DL_FUNC) &rpart, 12},
     {"xpred", (DL_FUNC) &xpred, 15},
     {"rpartexp2", (DL_FUNC) &rpartexp2, 2},
     {"pred_rpart", (DL_FUNC) &pred_rpart, 12},

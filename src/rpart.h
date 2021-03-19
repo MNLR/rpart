@@ -58,6 +58,7 @@ EXTERN struct {
     int n;                      /* total number of subjects  */
     int num_y;                  /* number of y variables */
     int nvar;                   /* number of predictors */
+    int mtry;                   /* number of randomly selected predictors for each split */
     int maxpri;
     int maxsur;                 /* max # of primary or surrogate splits to use */
     int usesurrogate;

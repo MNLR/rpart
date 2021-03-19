@@ -3,9 +3,20 @@
 #
 rpart <-
     function(formula, data, weights, subset, na.action = na.rpart, method,
-             model = FALSE, x = FALSE, y = TRUE, parms, control, cost, ...)
+             model = FALSE, x = FALSE, y = TRUE, parms, control, cost, 
+             mtry = NA,
+             ...)
 {
     Call <- match.call()
+    
+    method.names <- c("anova", "poisson", "class", "exp")
+    
+
+    # if (!missing(method) && method == "bernoulliLL" && 
+    #     !all.equal(unname(sort(unique(y))), c(0,1)))
+    #   stop("Either the variable has NAs or is not Bernoulli distributed")
+
+    
     if (is.data.frame(model)) {
         m <- model
         model <- FALSE
@@ -23,7 +34,6 @@ rpart <-
     if (any(attr(Terms, "order") > 1L))
 	stop("Trees cannot handle interaction terms")
 
-    Y <- model.response(m)
     wt <- model.weights(m)
     if (any(wt < 0)) stop("negative weights not allowed")
     if (!length(wt)) wt <- rep(1, nrow(m))
@@ -31,7 +41,14 @@ rpart <-
     X <- rpart.matrix(m)
     nobs <- nrow(X)
     nvar <- ncol(X)
-
+    
+    Y <- model.response(m)
+    if (is.null(mtry)){
+      if (is.character(Y) || is.factor(Y)) mtry <- floor(sqrt(nvar))
+      else mtry <- max(floor(nvar/3), 1)
+    } else if (is.na(mtry)) mtry <- nvar
+      else if ( x%%1 != 0 || mtry < 1 || mtry > nvar) stop("Provide a valid mtry")
+    
     if (missing(method)) {
 	method <- if (is.factor(Y) || is.character(Y)) "class"
         else if (inherits(Y, "Surv")) "exp"
@@ -41,32 +58,29 @@ rpart <-
 
     if (is.list(method)) {
         ## User-written split methods
-	mlist <- method
-	method <- "user"
+      mlist <- method
+      method <- "user"
 
         ## Set up C callback.  Assign the result to a variable to avoid
         ## garbage collection
-	init <- if (missing(parms)) mlist$init(Y, offset, wt = wt)
-	        else mlist$init(Y, offset, parms, wt)
-        keep <- rpartcallback(mlist, nobs, init)
-
-	method.int <- 4L             # the fourth entry in func_table.h
-#	numresp <- init$numresp
-#	numy <- init$numy
-	parms <- init$parms
+      init <- if (missing(parms)) mlist$init(Y, offset, wt = wt) else mlist$init(Y, offset, parms, wt)
+      keep <- rpartcallback(mlist, nobs, init)
+        
+      method.int <- 4L             # the fourth entry in func_table.h
+      #	numresp <- init$numresp
+      #	numy <- init$numy
+      parms <- init$parms
     } else {
-	method.int <- pmatch(method, c("anova", "poisson", "class", "exp"))
-	if (is.na(method.int)) stop("Invalid method")
-	method <- c("anova", "poisson", "class", "exp")[method.int]
-	if (method.int == 4L) method.int <- 2L
+      method.int <- pmatch(method, method.names)
+      if (is.na(method.int)) stop("Invalid method")
+      method <- method.names[method.int]
+      if (method.int == 4L) method.int <- 2L
 
         ## If this function is being retrieved from the rpart package, then
         ##   preferentially "get" the init function from there.  But don't
         ##   lock in the rpart package otherwise, so that we can still do
         ##   standalone debugging.
-	init <- if (missing(parms))
-            get(paste("rpart", method, sep = "."),
-                envir = environment())(Y, offset, , wt)
+	init <- if (missing(parms)) get(paste("rpart", method, sep = "."), envir = environment())(Y, offset, , wt)
         else
             get(paste("rpart", method, sep = "."),
                 envir = environment())(Y, offset, parms, wt)
@@ -81,11 +95,9 @@ rpart <-
 
     xlevels <- .getXlevels(Terms, m)
     cats <- rep(0L, ncol(X))
-    if (!is.null(xlevels)) {
-        xlevels <- xlevels[names(xlevels) %in% colnames(X)]
+    if (!is.null(xlevels))
 	cats[match(names(xlevels), colnames(X))] <-
             unlist(lapply(xlevels, length))
-    }
 
     ## We want to pass any ... args to rpart.control, but not pass things
     ##  like "dats = mydata" where someone just made a typo.  The use of ...
@@ -109,7 +121,7 @@ rpart <-
 	xval <- 0L
     } else if (length(xval) == 1L) {
         ## make random groups
-        xgroups <- sample(rep(1L:xval, length.out = nobs), nobs, replace = FALSE)
+        xgroups <- sample(rep(1L:xval, length = nobs), nobs, replace = FALSE)
     } else if (length(xval) == nobs) {
 	xgroups <- xval
 	xval <- length(unique(xgroups))
@@ -161,7 +173,8 @@ rpart <-
                    X,
                    wt,
                    as.integer(init$numy),
-                   as.double(cost))
+                   as.double(cost), 
+                   as.integer(mtry))
 
     nsplit <- nrow(rpfit$isplit) # total number of splits, primary and surrogate
     ## total number of categorical splits

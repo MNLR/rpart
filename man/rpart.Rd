@@ -9,7 +9,7 @@
 }
 \usage{
 rpart(formula, data, weights, subset, na.action = na.rpart, method,
-      model = FALSE, x = FALSE, y = TRUE, parms, control, cost, \dots)
+      model = FALSE, x = FALSE, y = TRUE, parms, control, cost, mtry, \dots)
 }
 \arguments{
   \item{formula}{a \link{formula}, with a response but no interaction
@@ -76,6 +76,9 @@ rpart(formula, data, weights, subset, na.action = na.rpart, method,
     be applied when considering splits, so the improvement on splitting
     on a variable is divided by its cost in deciding which split to
     choose.}
+    
+  \item{mtry}{an integer. The number of predictors to be used randomly
+    as candidate splits at each node}
   
   \item{\dots}{arguments to \code{\link{rpart.control}} may also be
     specified in the call to \code{rpart}.  They are checked against the

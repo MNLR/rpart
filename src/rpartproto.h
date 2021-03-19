@@ -37,7 +37,8 @@ int partition(int nodenum, pNode splitnode, double *sumrisk, int n1, int n2);
 int print_tree(pNode me, int maxdepth);
 
 SEXP rpart(SEXP ncat2, SEXP method2, SEXP opt2, SEXP parms2, SEXP ymat2,
-	   SEXP xmat2, SEXP xvals2, SEXP xgrp2, SEXP wt2, SEXP ny2, SEXP cost2);
+	   SEXP xmat2, SEXP xvals2, SEXP xgrp2, SEXP wt2, SEXP ny2, SEXP cost2, 
+	   SEXP mtry);
 
 void rpart_callback0(int *nr);
 void rpart_callback1(int n, double *y[], double *wt, double *z);

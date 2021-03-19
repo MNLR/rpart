@@ -40,7 +40,8 @@
 SEXP
 rpart(SEXP ncat2, SEXP method2, SEXP opt2,
       SEXP parms2, SEXP xvals2, SEXP xgrp2,
-      SEXP ymat2, SEXP xmat2, SEXP wt2, SEXP ny2, SEXP cost2)
+      SEXP ymat2, SEXP xmat2, SEXP wt2, SEXP ny2, SEXP cost2, 
+      SEXP mtry)
 {
 
     pNode tree;          /* top node of the tree */
@@ -81,14 +82,15 @@ rpart(SEXP ncat2, SEXP method2, SEXP opt2,
      * initialize the splitting functions from the function table
      */
     if (asInteger(method2) <= NUM_METHODS) {
-	i = asInteger(method2) - 1;
-	rp_init = func_table[i].init_split;
-	rp_choose = func_table[i].choose_split;
-	rp_eval = func_table[i].eval;
-	rp_error = func_table[i].error;
-	rp.num_y = asInteger(ny2);
-    } else
-	error(_("Invalid value for 'method'"));
+      i = asInteger(method2) - 1;
+      rp_init = func_table[i].init_split;
+      rp_choose = func_table[i].choose_split;
+      rp_eval = func_table[i].eval;
+      rp_error = func_table[i].error;
+      rp.num_y = asInteger(ny2);
+    } else	error(_("Invalid value for 'method'"));
+    
+    rp.mtry = asInteger(mtry);
 
     /*
      * set some other parameters
@@ -99,8 +101,7 @@ rpart(SEXP ncat2, SEXP method2, SEXP opt2,
     rp.complexity = dptr[2];
     rp.maxpri = (int) dptr[3] + 1;      /* max primary splits =
 					   max competitors + 1 */
-    if (rp.maxpri < 1)
-	rp.maxpri = 1;
+    if (rp.maxpri < 1)	rp.maxpri = 1;
     rp.maxsur = (int) dptr[4];
     rp.usesurrogate = (int) dptr[5];
     rp.sur_agree = (int) dptr[6];
@@ -184,8 +185,7 @@ rpart(SEXP ncat2, SEXP method2, SEXP opt2,
 	rp.left = rp.csplit + maxcat;
 	rp.right = rp.left + maxcat;
 	rp.rwt = rp.lwt + maxcat;
-    } else
-	rp.csplit = (int *) ALLOC(1, sizeof(int));
+    } else rp.csplit = (int *) ALLOC(1, sizeof(int));
 
     /*
      * initialize the top node of the tree
@@ -195,12 +195,11 @@ rpart(SEXP ncat2, SEXP method2, SEXP opt2,
     rp.which = INTEGER(which3);
     temp = 0;
     for (i = 0; i < n; i++) {
-	rp.which[i] = 1;
-	temp += wt[i];
+      rp.which[i] = 1;
+      temp += wt[i];
     }
     i = (*rp_init) (n, rp.ydata, maxcat, &errmsg, parms, &rp.num_resp, 1, wt);
-    if (i > 0)
-	error(errmsg);
+    if (i > 0)	error(errmsg);
 
     nodesize = sizeof(Node) + (rp.num_resp - 20) * sizeof(double);
     tree = (pNode) ALLOC(1, nodesize);
@@ -226,11 +225,11 @@ rpart(SEXP ncat2, SEXP method2, SEXP opt2,
     rp.num_unique_cp = 1;
 
     if (tree->rightson) {
-	make_cp_list(tree, tree->complexity, cptable);
-	make_cp_table(tree, tree->complexity, 0);
-	if (xvals > 1) {
-	    xval(xvals, cptable, xgrp, maxcat, &errmsg, parms, savesort);
-	}
+      make_cp_list(tree, tree->complexity, cptable);
+      make_cp_table(tree, tree->complexity, 0);
+      if (xvals > 1) {
+        xval(xvals, cptable, xgrp, maxcat, &errmsg, parms, savesort);
+      }
     }
     /*
      * all done, create the return list for R

@@ -3,3 +3,6 @@
 .RData
 .Ruserdata
 rpart.Rproj
+vignettes
+src/*.o
+src/*.so
