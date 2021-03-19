@@ -8,7 +8,7 @@ Essentially, this forked package has two main modifications:
 - The internal code has been modified so that building trees now accepts the parameter mtry.
 - New split functions have been added, mainly to deal with predictands that are gamma distributed. These are coded internally in c. The original package does contain an extension mechanism for R, but using split functions in R is extremelly slow. Note that this is work in progress.
 
-## Overview of the original `rpart` Package <img src="man/figures/rpart.png" alt="Rpart logo" style="float:right;height:232.25px" align="right" height="232.25">
+## Overview of the original `rpart` Package [<img src="man/figures/rpart.png" alt="Rpart logo" style="float:right;height:232.25px" align="right" height="232.25">](https://cran.r-project.org/web/packages/rpart/index.html)
 
 The `rpart` code builds classification or regression models of a very
 general structure using a two stage procedure; the resulting models can be
