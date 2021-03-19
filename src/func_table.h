@@ -46,6 +46,18 @@ extern double ginipred(double *y, double *yhat);
 extern double poissonpred(double *y, double *yhat);
 extern double usersplit_pred(double *y, double *yhat);
 
+extern void gammaLLMME_split(int n, double *y[], double *x, int nclass,
+                  int edge, double *improve, double *split, int *csplit,
+                  double myrisk, double *wt);
+extern void gammaLLMME_eval(int n, double *y[], double *value, double *risk,
+                    double *wt);
+extern int gammaLLMME_init(int n, double *y[], int maxcat, char **error,
+                     double *parm, int *size, int who, double *wt);
+extern double gammaLLMME_pred(double *y, double *yhat);
+
+
+
+
 static struct {
     int (*init_split) ();
     void (*choose_split) ();
@@ -55,7 +67,8 @@ static struct {
     {anovainit, anova, anovass, anovapred},
     {poissoninit, poisson, poissondev, poissonpred},
     {giniinit, gini, ginidev, ginipred},
-    {usersplit_init, usersplit, usersplit_eval, usersplit_pred}
+    {usersplit_init, usersplit, usersplit_eval, usersplit_pred},
+    {gammaLLMME_init, gammaLLMME_split, gammaLLMME_eval, gammaLLMME_pred}
 };
 
-#define NUM_METHODS 4           /* size of the above structure */
+#define NUM_METHODS 5           /* size of the above structure */

@@ -9,7 +9,8 @@ rpart <-
 {
     Call <- match.call()
     
-    method.names <- c("anova", "poisson", "class", "exp")
+    method.names <- c("anova", "poisson", "class", "exp", 
+                      "gammaLLMME")
     
 
     # if (!missing(method) && method == "bernoulliLL" && 
