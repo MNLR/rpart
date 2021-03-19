@@ -10,7 +10,11 @@ rpart <-
     Call <- match.call()
     
     method.names <- c("anova", "poisson", "class", "exp", 
-                      "gammaLLMME")
+                      "gammaLLMME", "gammaLLmean", 
+                      "bernoulliGammaLLMME",
+                      "gammaDeviation", 
+                      "gammaLLBC3",
+                      "bernoulliLL")
     
 
     # if (!missing(method) && method == "bernoulliLL" && 

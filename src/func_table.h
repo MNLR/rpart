@@ -55,7 +55,54 @@ extern int gammaLLMME_init(int n, double *y[], int maxcat, char **error,
                      double *parm, int *size, int who, double *wt);
 extern double gammaLLMME_pred(double *y, double *yhat);
 
+extern void gammaLLmean_split(int n, double *y[], double *x, int nclass,
+                             int edge, double *improve, double *split, int *csplit,
+                             double myrisk, double *wt);
+extern void gammaLLmean_eval(int n, double *y[], double *value, double *risk,
+                            double *wt);
+extern int gammaLLmean_init(int n, double *y[], int maxcat, char **error,
+                           double *parm, int *size, int who, double *wt);
+extern double gammaLLmean_pred(double *y, double *yhat);
 
+extern int bernoulliGammaLLMME_init(int n, double *y[], int maxcat, char **error,
+                             double *parm, int *size, int who, double *wt);
+extern void bernoulliGammaLLMME_eval(int n, double *y[], double *value, double *risk, double *wt);
+extern void bernoulliGammaLLMME_split(int n, double *y[], double *x, int nclass,
+                            int edge, double *improve, double *split, int *csplit,
+                            double myrisk, double *wt);
+extern double  bernoulliGammaLLMME_pred(double *y, double *yhat);
+
+extern int gammaDeviation_init(int n, double *y[], int maxcat, char **error,
+                                    double *parm, int *size, int who, double *wt);
+extern void gammaDeviation_eval(int n, double *y[], double *value, double *risk, double *wt);
+extern void gammaDeviation_split(int n, double *y[], double *x, int nclass,
+                                      int edge, double *improve, double *split, int *csplit,
+                                      double myrisk, double *wt);
+extern double  gammaDeviation_pred(double *y, double *yhat);
+
+
+extern int gammaLLBC3_init(int n, double *y[], int maxcat, char **error,
+                           double *parm, int *size, int who, double *wt);
+extern void gammaLLBC3_eval(int n, double *y[], double *value, double *risk,
+                            double *wt);
+
+extern void gammaLLBC3_split(int n, double *y[], double *x, int nclass,
+                             int edge, double *improve, double *split, int *csplit,
+                             double myrisk, double *wt);
+
+extern double gammaLLBC3_pred(double *y, double *yhat);
+
+
+extern int bernoulliLL_init(int n, double *y[], int maxcat, char **error,
+                            double *parm, int *size, int who, double *wt);
+
+extern void  bernoulliLL_eval(int n, double *y[], double *value, double *risk, double *wt);
+  
+extern void  bernoulliLL_split(int n, double *y[], double *x, int nclass,
+                               int edge, double *improve, double *split, int *csplit,
+                               double myrisk, double *wt);
+
+extern double bernoulliLL_pred(double *y, double *yhat);
 
 
 static struct {
@@ -68,7 +115,12 @@ static struct {
     {poissoninit, poisson, poissondev, poissonpred},
     {giniinit, gini, ginidev, ginipred},
     {usersplit_init, usersplit, usersplit_eval, usersplit_pred},
-    {gammaLLMME_init, gammaLLMME_split, gammaLLMME_eval, gammaLLMME_pred}
+    {gammaLLMME_init, gammaLLMME_split, gammaLLMME_eval, gammaLLMME_pred},
+    {gammaLLmean_init, gammaLLmean_split, gammaLLmean_eval, gammaLLmean_pred},
+    {bernoulliGammaLLMME_init, bernoulliGammaLLMME_split, bernoulliGammaLLMME_eval, bernoulliGammaLLMME_pred},
+    {gammaDeviation_init, gammaDeviation_split, gammaDeviation_eval, gammaDeviation_pred},
+    {gammaLLBC3_init, gammaLLBC3_split, gammaLLBC3_eval, gammaLLBC3_pred},
+    {bernoulliLL_init, bernoulliLL_split, bernoulliLL_eval, bernoulliLL_pred}
 };
 
-#define NUM_METHODS 5           /* size of the above structure */
+#define NUM_METHODS 10           /* size of the above structure */
