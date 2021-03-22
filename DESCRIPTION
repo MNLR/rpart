@@ -1,6 +1,6 @@
 Package: rpart
 Priority: recommended
-Version: 4.1-15
+Version: 5.0-1
 Date: 2021-03-19
 Authors@R: c(person("Mikel N.", "Legasa", role = c("aut", "cre"),
                     email = "mikel.legasa@unican.es"),
