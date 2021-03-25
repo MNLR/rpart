@@ -1,7 +1,7 @@
 # `rpart` for Random Forests with more Split Functions
 
 
-This is the source code for a modification of the [`rpart` package](https://cran.r-project.org/web/packages/rpart/index.html) — The recomended Classification and Regression Trees package in R — aimed to be used as the base tree package for building **random forests** by means of the package [RandomForest2](https://github.com/MNLR/RandomForest2).
+This is the source code for a modification of the [`rpart` package](https://cran.r-project.org/web/packages/rpart/index.html) — The recomended Classification and Regression Trees package in R — aimed to be used as the base tree package for building **random forests** by means of the package [RandomForest2](https://github.com/MNLR/RandomForest2) [Work In Progress, not yet available].
 
 Essentially, this forked package has two main modifications:
 
