@@ -104,6 +104,14 @@ extern void  bernoulliLL_split(int n, double *y[], double *x, int nclass,
 
 extern double bernoulliLL_pred(double *y, double *yhat);
 
+extern int binaryCrossEntropyGammaDeviation_init(int n, double *y[], int maxcat, char **error,
+                               double *parm, int *size, int who, double *wt);
+extern void binaryCrossEntropyGammaDeviation_eval(int n, double *y[], double *value, double *risk, double *wt);
+extern void binaryCrossEntropyGammaDeviation_split(int n, double *y[], double *x, int nclass,
+                                 int edge, double *improve, double *split, int *csplit,
+                                 double myrisk, double *wt);
+extern double  binaryCrossEntropyGammaDeviation_pred(double *y, double *yhat);
+
 
 static struct {
     int (*init_split) ();
@@ -120,7 +128,8 @@ static struct {
     {bernoulliGammaLLMME_init, bernoulliGammaLLMME_split, bernoulliGammaLLMME_eval, bernoulliGammaLLMME_pred},
     {gammaDeviation_init, gammaDeviation_split, gammaDeviation_eval, gammaDeviation_pred},
     {gammaLLBC3_init, gammaLLBC3_split, gammaLLBC3_eval, gammaLLBC3_pred},
-    {bernoulliLL_init, bernoulliLL_split, bernoulliLL_eval, bernoulliLL_pred}
+    {bernoulliLL_init, bernoulliLL_split, bernoulliLL_eval, bernoulliLL_pred},
+    {binaryCrossEntropyGammaDeviation_init, binaryCrossEntropyGammaDeviation_split, binaryCrossEntropyGammaDeviation_eval, binaryCrossEntropyGammaDeviation_pred}
 };
 
-#define NUM_METHODS 10           /* size of the above structure */
+#define NUM_METHODS 11           /* size of the above structure */

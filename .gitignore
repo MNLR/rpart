@@ -6,3 +6,4 @@ rpart.Rproj
 vignettes
 src/*.o
 src/*.so
+testingHall.R

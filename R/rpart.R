@@ -14,7 +14,8 @@ rpart <-
                       "bernoulliGammaLLMME",
                       "gammaDeviation", 
                       "gammaLLBC3",
-                      "bernoulliLL")
+                      "bernoulliLL",
+                      "binaryCrossEntropyGammaDeviation")
     
 
     # if (!missing(method) && method == "bernoulliLL" && 
