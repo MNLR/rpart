@@ -1,6 +1,6 @@
 # Extended functionalities for `rpart` [<img src="man/figures/rpart.png" alt="Rpart logo" style="float:right;height:232.25px" align="right" height="232.25">](https://cran.r-project.org/web/packages/rpart/index.html)
 
-This modified version of the well-known [`rpart`](https://cran.r-project.org/web/packages/rpart/index.html) package, which has been [forked](https://github.com/bethatkinson/rpart) extends the functionalities of `rpart` so that the user can:
+This modified version of the well-known [`rpart`](https://cran.r-project.org/web/packages/rpart/index.html) package, which has been forked from [here],(https://github.com/bethatkinson/rpart) extends the functionalities of `rpart` so that the user can:
 
 - Modify the *mtry* parameter (number of predictors considered at each split).
 - Use new split functions which allow for dealing with predictands that are non-normally distributed. For speed purposes, this part of the code has been written in the C language.
