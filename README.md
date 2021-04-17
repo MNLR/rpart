@@ -8,3 +8,14 @@ This modified version of the well-known [`rpart`](https://cran.r-project.org/web
 This allows for building non-standard **random forests** through the [RandomForest2](https://github.com/MNLR/RandomForest2) package. 
 
 **Note**: This package is still being developed and new functionalities may be added soon.
+
+To install this [modified version of rpart](https://github.com/MNLR/rpart), simply type the following:
+
+```
+devtools::install_github("MNLR/rpart")
+```
+
+In case `devtools` is not already available, it can be installed from CRAN using the command `install.packages("devtools")`.
+
+
+
