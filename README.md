@@ -5,7 +5,7 @@ This modified version of the well-known [`rpart`](https://cran.r-project.org/web
 - Modify the *mtry* parameter (number of predictors considered at each split).
 - Use new split functions which allow for dealing with predictands that are non-normally distributed. For speed purposes, this part of the code has been written in the C language.
 
-This allows for building non-standard **random forests** through the [RandomForest2](https://github.com/MNLR/RandomForest2) package. 
+This allows for building non-standard **random forests** through the [RandomForestDist](https://github.com/MNLR/RandomForestDist) package. 
 
 **Note**: This package is still being developed and new functionalities may be added soon.
 
