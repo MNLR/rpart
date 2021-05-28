@@ -18,6 +18,7 @@ rpart <-
                       "binaryCrossEntropyGammaDeviation")
     
 
+
     # if (!missing(method) && method == "bernoulliLL" && 
     #     !all.equal(unname(sort(unique(y))), c(0,1)))
     #   stop("Either the variable has NAs or is not Bernoulli distributed")
@@ -49,17 +50,19 @@ rpart <-
     nvar <- ncol(X)
     
     Y <- model.response(m)
+
+
     if (is.null(mtry)){
       if (is.character(Y) || is.factor(Y)) mtry <- floor(sqrt(nvar))
       else mtry <- max(floor(nvar/3), 1)
     } else if (is.na(mtry)) mtry <- nvar
       else if ( x%%1 != 0 || mtry < 1 || mtry > nvar) stop("Provide a valid mtry")
     
-    if (missing(method)) {
-	method <- if (is.factor(Y) || is.character(Y)) "class"
-        else if (inherits(Y, "Surv")) "exp"
-	else if (is.matrix(Y)) "poisson"
-	else "anova"
+    if (missing(method) || is.null(method)) { #ensures compatibility with wrapping
+    	method <- if (is.factor(Y) || is.character(Y)) "class"
+            else if (inherits(Y, "Surv")) "exp"
+    	else if (is.matrix(Y)) "poisson"
+    	else "anova"
     }
 
     if (is.list(method)) {
@@ -69,7 +72,7 @@ rpart <-
 
         ## Set up C callback.  Assign the result to a variable to avoid
         ## garbage collection
-      init <- if (missing(parms)) mlist$init(Y, offset, wt = wt) else mlist$init(Y, offset, parms, wt)
+      init <- if (missing(parms) || is.null(parms)) mlist$init(Y, offset, wt = wt) else mlist$init(Y, offset, parms, wt)
       keep <- rpartcallback(mlist, nobs, init)
         
       method.int <- 4L             # the fourth entry in func_table.h
@@ -86,7 +89,8 @@ rpart <-
         ##   preferentially "get" the init function from there.  But don't
         ##   lock in the rpart package otherwise, so that we can still do
         ##   standalone debugging.
-	init <- if (missing(parms)) get(paste("rpart", method, sep = "."), envir = environment())(Y, offset, , wt)
+	init <- if (missing(parms) || is.null(parms)) get(paste("rpart", method, sep = "."),
+	                                envir = environment())(Y, offset, , wt)
         else
             get(paste("rpart", method, sep = "."),
                 envir = environment())(Y, offset, parms, wt)
@@ -119,7 +123,7 @@ rpart <-
     }
 
     controls <- rpart.control(...)
-    if (!missing(control)) controls[names(control)] <- control
+    if (!missing(control) && !is.null(control)) controls[names(control)] <- control
 
     xval <- controls$xval
     if (is.null(xval) || (length(xval) == 1L && xval == 0L) || method=="user") {
@@ -147,7 +151,7 @@ rpart <-
     ##
     ## Incorporate costs
     ##
-    if (missing(cost)) cost <- rep(1, nvar)
+    if (missing(cost) || is.null(control)) cost <- rep(1, nvar)
     else {
 	if (length(cost) != nvar)
             stop("Cost vector is the wrong length")
@@ -294,7 +298,7 @@ rpart <-
     if (nsplit) ans$variable.importance <- importance(ans)
     if (model) {
 	ans$model <- m
-	if (missing(y)) y <- FALSE
+	if (missing(y) || is.null(y)) y <- FALSE
     }
     if (y) ans$y <- Y
     if (x) {
