@@ -22,7 +22,7 @@ int binaryCrossEntropyGammaDeviation_init(int n, double *y[], int maxcat, char *
 
 
 double gammaDeviation(double y, double mean){
-  return - log(y/mean) + (y - mean)/mean;
+  return -log(y/mean) + (y - mean)/mean;
 }
 
 double negBinaryCrossEntropySum(int n0, int n1, double p){

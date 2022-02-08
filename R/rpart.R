@@ -15,7 +15,13 @@ rpart <-
                       "gammaDeviation", 
                       "gammaLLBC3",
                       "bernoulliLL",
-                      "binaryCrossEntropyGammaDeviation")
+                      "binaryCrossEntropyGammaDeviation",
+                      "binaryCrossEntropy",
+                      "binaryCrossEntropyMultivar",
+                      "binaryCrossEntropyMultivarCorPenalization",
+                      "binaryMultiEntropy",
+                      "binaryMultiEntropyCond", 
+                      "multiBinaryGammaEntropy")
     
 
 
@@ -46,11 +52,74 @@ rpart <-
     if (!length(wt)) wt <- rep(1, nrow(m))
     offset <- model.offset(m)
     X <- rpart.matrix(m)
+    
+    
     nobs <- nrow(X)
     nvar <- ncol(X)
     
     Y <- model.response(m)
-
+    
+    if (method == "binaryMultiEntropy"){
+      if ( !identical(unique(Y), c(0,1)) && !identical(unique(Y), c(1,0)) ){
+        stop("Data is not binary") 
+      }
+    }
+    
+    if (method == "binaryCrossEntropyMultivar" ||
+        method == "binaryMultiEntropy"  || 
+        method == "binaryMultiEntropyCond" ||
+        method == "multiBinaryGammaEntropy"){
+      if (is.null(ncol(Y)) || ncol(Y) == 1) stop("For multivariable methods y must be a 2D matrix")
+      parms <- ncol(Y)
+    } else if ( method == "binaryCrossEntropyMultivarCorPenalization" ){
+      if (is.null(ncol(Y)) || ncol(Y) == 1) stop("For method 'binaryCrossEntropyMultivarCorPenalization' y must be a 2D matrix")
+      if ( !identical(unique(Y), c(0,1)) && !identical(unique(Y), c(1,0)) ){
+        stop("Data is not binary") 
+      }
+      if (length(parms) != 3){
+        warning("3 parameters were not provided for 'binaryCrossEntropyMultivarCorPenalization',
+                 Using default cor = 'pearson'; alpha = 0.5; beta = 0.5")
+        alpha <- 0.5
+        beta <- 0.5
+        cor.type <- "pearson"
+      } else {
+        cor.type <- match.arg(arg = parms[1], choices = c("spearman",
+                                                          "pearson", 
+                                                          "kendall"))
+        alpha <- as.numeric(parms[2])
+        beta <- as.numeric(parms[3])
+        if (!is.numeric(alpha) || !is.numeric(beta) ||
+            alpha < 0 || beta < 0) stop("provide valid numeric alpha, beta")
+      }
+      
+      aux.cor_ <- cor(Y, method = cor.type)
+      
+      cor_ <- rep(x = 0, times = ((ncol(Y)-1)*ncol(Y))/2)
+      
+      icor_ <- 1
+      for (ic in 1:ncol(aux.cor_)){
+        
+        ir <- 1
+        while (ir <= nrow(aux.cor_)){
+          if (ir > ic){
+            cor_[icor_] <- aux.cor_[ir, ic]
+            icor_ <- icor_ + 1
+          }
+          ir <- ir + 1
+        }
+      }
+      
+      parms <- c(ncol(Y), 
+                 alpha, 
+                 beta,
+                 cor_)
+    }
+    
+    #print("X = ")
+    #print(X)
+    #print("Y = ")
+    #print(Y)
+    
 
     if (is.null(mtry)){
       if (is.character(Y) || is.factor(Y)) mtry <- floor(sqrt(nvar))

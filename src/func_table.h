@@ -112,6 +112,62 @@ extern void binaryCrossEntropyGammaDeviation_split(int n, double *y[], double *x
                                  double myrisk, double *wt);
 extern double  binaryCrossEntropyGammaDeviation_pred(double *y, double *yhat);
 
+extern int binaryCrossEntropy_init(int n, double *y[], int maxcat, char **error,
+                                   double *parm, int *size, int who, double *wt);
+extern void binaryCrossEntropy_eval(int n, double *y[], double *value, double *risk, double *wt);
+extern void binaryCrossEntropy_split(int n, double *y[], double *x, int nclass,
+                                                   int edge, double *improve, double *split, int *csplit,
+                                                   double myrisk, double *wt);
+extern double  binaryCrossEntropy_pred(double *y, double *yhat);
+
+extern int binaryCrossEntropyMultivar_init(int n, double *y[], int maxcat, char **error,
+                                   double *parm, int *size, int who, double *wt);
+extern void binaryCrossEntropyMultivar_eval(int n, double *y[], double *value, double *risk, double *wt);
+extern void binaryCrossEntropyMultivar_split(int n, double *y[], double *x, int nclass,
+                                     int edge, double *improve, double *split, int *csplit,
+                                     double myrisk, double *wt);
+extern double  binaryCrossEntropyMultivar_pred(double *y, double *yhat);
+
+
+extern int binaryCrossEntropyMultivarCorPenalization_init(int n, double *y[], int maxcat, char **error,
+                                           double *parm, int *size, int who, double *wt);
+extern void binaryCrossEntropyMultivarCorPenalization_eval(int n, double *y[], double *value, double *risk, double *wt);
+extern void binaryCrossEntropyMultivarCorPenalization_split(int n, double *y[], double *x, int nclass,
+                                             int edge, double *improve, double *split, int *csplit,
+                                             double myrisk, double *wt);
+extern double  binaryCrossEntropyMultivarCorPenalization_pred(double *y, double *yhat);
+
+
+extern int binaryMultiEntropy_init(int n, double *y[], int maxcat, char **error,
+                                                          double *parm, int *size, int who, double *wt);
+extern void binaryMultiEntropy_eval(int n, double *y[], double *value, double *risk, double *wt);
+extern void binaryMultiEntropy_split(int n, double *y[], double *x, int nclass,
+                                                            int edge, double *improve, double *split, int *csplit,
+                                                            double myrisk, double *wt);
+extern double binaryMultiEntropy_pred(double *y, double *yhat);
+
+
+extern int binaryMultiEntropyCond_init(int n, double *y[], int maxcat, char **error,
+                                   double *parm, int *size, int who, double *wt);
+extern void binaryMultiEntropyCond_eval(int n, double *y[], double *value, double *risk, double *wt);
+extern void binaryMultiEntropyCond_split(int n, double *y[], double *x, int nclass,
+                                     int edge, double *improve, double *split, int *csplit,
+                                     double myrisk, double *wt);
+extern double binaryMultiEntropyCond_pred(double *y, double *yhat);
+
+
+extern double binaryMultiEntropy_pred(double *y, double *yhat);
+
+
+extern int multiBinaryGammaEntropy_init(int n, double *y[], int maxcat, char **error,
+                                       double *parm, int *size, int who, double *wt);
+extern void multiBinaryGammaEntropy_eval(int n, double *y[], double *value, double *risk, double *wt);
+extern void multiBinaryGammaEntropy_split(int n, double *y[], double *x, int nclass,
+                                         int edge, double *improve, double *split, int *csplit,
+                                         double myrisk, double *wt);
+extern double multiBinaryGammaEntropy_pred(double *y, double *yhat);
+
+
 
 static struct {
     int (*init_split) ();
@@ -129,7 +185,16 @@ static struct {
     {gammaDeviation_init, gammaDeviation_split, gammaDeviation_eval, gammaDeviation_pred},
     {gammaLLBC3_init, gammaLLBC3_split, gammaLLBC3_eval, gammaLLBC3_pred},
     {bernoulliLL_init, bernoulliLL_split, bernoulliLL_eval, bernoulliLL_pred},
-    {binaryCrossEntropyGammaDeviation_init, binaryCrossEntropyGammaDeviation_split, binaryCrossEntropyGammaDeviation_eval, binaryCrossEntropyGammaDeviation_pred}
+    {binaryCrossEntropyGammaDeviation_init, binaryCrossEntropyGammaDeviation_split, binaryCrossEntropyGammaDeviation_eval, binaryCrossEntropyGammaDeviation_pred},
+    {binaryCrossEntropy_init, binaryCrossEntropy_split, binaryCrossEntropy_eval, binaryCrossEntropy_pred},
+    {binaryCrossEntropyMultivar_init, binaryCrossEntropyMultivar_split, binaryCrossEntropyMultivar_eval, binaryCrossEntropyMultivar_pred},
+    {binaryCrossEntropyMultivarCorPenalization_init,
+        binaryCrossEntropyMultivarCorPenalization_split, 
+        binaryCrossEntropyMultivarCorPenalization_eval, 
+        binaryCrossEntropyMultivarCorPenalization_pred},
+    {binaryMultiEntropy_init, binaryMultiEntropy_split, binaryMultiEntropy_eval, binaryMultiEntropy_pred},
+    {binaryMultiEntropyCond_init, binaryMultiEntropyCond_split, binaryMultiEntropyCond_eval, binaryMultiEntropyCond_pred},
+    {multiBinaryGammaEntropy_init, multiBinaryGammaEntropy_split, multiBinaryGammaEntropy_eval, multiBinaryGammaEntropy_pred}
 };
 
-#define NUM_METHODS 11           /* size of the above structure */
+#define NUM_METHODS 17         /* size of the above structure */
