@@ -21,6 +21,7 @@ rpart <-
                       "binaryCrossEntropyMultivarCorPenalization",
                       "binaryMultiEntropy",
                       "binaryMultiEntropyCond", 
+                      "binaryMargEntropyCond", 
                       "multiBinaryGammaEntropy")
     
 
@@ -68,6 +69,7 @@ rpart <-
     if (method == "binaryCrossEntropyMultivar" ||
         method == "binaryMultiEntropy"  || 
         method == "binaryMultiEntropyCond" ||
+        method == "binaryMargEntropyCond" ||
         method == "multiBinaryGammaEntropy"){
       if (is.null(ncol(Y)) || ncol(Y) == 1) stop("For multivariable methods y must be a 2D matrix")
       parms <- ncol(Y)
@@ -120,7 +122,6 @@ rpart <-
     #print("Y = ")
     #print(Y)
     
-
     if (is.null(mtry)){
       if (is.character(Y) || is.factor(Y)) mtry <- floor(sqrt(nvar))
       else mtry <- max(floor(nvar/3), 1)

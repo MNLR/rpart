@@ -156,7 +156,13 @@ extern void binaryMultiEntropyCond_split(int n, double *y[], double *x, int ncla
 extern double binaryMultiEntropyCond_pred(double *y, double *yhat);
 
 
-extern double binaryMultiEntropy_pred(double *y, double *yhat);
+extern int binaryMargEntropyCond_init(int n, double *y[], int maxcat, char **error,
+                                       double *parm, int *size, int who, double *wt);
+extern void binaryMargEntropyCond_eval(int n, double *y[], double *value, double *risk, double *wt);
+extern void binaryMargEntropyCond_split(int n, double *y[], double *x, int nclass,
+                                         int edge, double *improve, double *split, int *csplit,
+                                         double myrisk, double *wt);
+extern double binaryMargEntropyCond_pred(double *y, double *yhat);
 
 
 extern int multiBinaryGammaEntropy_init(int n, double *y[], int maxcat, char **error,
@@ -188,13 +194,11 @@ static struct {
     {binaryCrossEntropyGammaDeviation_init, binaryCrossEntropyGammaDeviation_split, binaryCrossEntropyGammaDeviation_eval, binaryCrossEntropyGammaDeviation_pred},
     {binaryCrossEntropy_init, binaryCrossEntropy_split, binaryCrossEntropy_eval, binaryCrossEntropy_pred},
     {binaryCrossEntropyMultivar_init, binaryCrossEntropyMultivar_split, binaryCrossEntropyMultivar_eval, binaryCrossEntropyMultivar_pred},
-    {binaryCrossEntropyMultivarCorPenalization_init,
-        binaryCrossEntropyMultivarCorPenalization_split, 
-        binaryCrossEntropyMultivarCorPenalization_eval, 
-        binaryCrossEntropyMultivarCorPenalization_pred},
+    {binaryCrossEntropyMultivarCorPenalization_init, binaryCrossEntropyMultivarCorPenalization_split, binaryCrossEntropyMultivarCorPenalization_eval, binaryCrossEntropyMultivarCorPenalization_pred},
     {binaryMultiEntropy_init, binaryMultiEntropy_split, binaryMultiEntropy_eval, binaryMultiEntropy_pred},
     {binaryMultiEntropyCond_init, binaryMultiEntropyCond_split, binaryMultiEntropyCond_eval, binaryMultiEntropyCond_pred},
+    {binaryMargEntropyCond_init, binaryMargEntropyCond_split, binaryMargEntropyCond_eval, binaryMargEntropyCond_pred},
     {multiBinaryGammaEntropy_init, multiBinaryGammaEntropy_split, multiBinaryGammaEntropy_eval, multiBinaryGammaEntropy_pred}
 };
 
-#define NUM_METHODS 17         /* size of the above structure */
+#define NUM_METHODS 18        /* size of the above structure */

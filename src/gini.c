@@ -35,66 +35,66 @@ giniinit(int n, double **y, int maxcat, char **error,
 
    /* allocate memory  and setup losses */
     if (who == 1) {
-	numclass = 0;           /* number of classes */
-	for (i = 0; i < n; i++)
-	    if (*y[i] > numclass)
-		numclass = (int) *y[i];
-
-	if (parm[numclass + numclass * numclass] == 2)
-	    impurity = gini_impure2;
-	else
-	    impurity = gini_impure1;
-
-	left = (double *) ALLOC(numclass * 2, sizeof(double));
-	right = left + numclass;
-
-	tsplit = (int *) ALLOC(maxcat * 2, sizeof(int));
-	countn = tsplit + maxcat;
-
-	awt = (double *) ALLOC(maxcat * 2, sizeof(double));
-	rate = awt + maxcat;
-
-	if (maxcat > 0) {
-	    graycode_init0(maxcat);
-	    ccnt = (double **) ALLOC(numclass, sizeof(double *));
-	    ccnt[0] = (double *) ALLOC(numclass * maxcat, sizeof(double));
-	    for (i = 1; i < numclass; i++)
-		ccnt[i] = ccnt[i - 1] + maxcat;
-	}
-	i = 3 * numclass + numclass * numclass;
-	prior = (double *) ALLOC(i, sizeof(double));
-	aprior = prior + numclass;
-	freq = aprior + numclass;
-	loss = freq + numclass;
-
-	for (i = 0; i < numclass; i++)
-	    freq[i] = 0;
-	temp = 0;
-	for (i = 0; i < n; i++) {
-	    j = (int) *y[i] - 1;
-	    freq[j] += wt[i];
-	    temp += wt[i];      /* sum total of weights */
-	}
-	for (i = 0; i < numclass; i++)
-	    freq[i] /= temp;    /* relative frequency */
-
-	temp = 0;
-	for (i = 0; i < numclass; i++) {
-	    prior[i] = parm[i];
-	    aprior[i] = 0;
-	    for (j = 0; j < numclass; j++) {
-		k = numclass * j + i;
-		loss[k] = parm[numclass + k];
-		temp += loss[k] * prior[i];
-		aprior[i] += loss[k] * prior[i];
-	    }
-	}
-	for (i = 0; i < numclass; i++) {
-	    if (freq[i] > 0) {  /* watch out for a missing class */
-		prior[i] /= freq[i];
-		aprior[i] /= (temp * freq[i]);  /* pi_i / n_i */
-	    }
-	}
+    	numclass = 0;           /* number of classes */
+    	for (i = 0; i < n; i++)
+    	    if (*y[i] > numclass)
+    		numclass = (int) *y[i];
+    
+    	if (parm[numclass + numclass * numclass] == 2)
+    	    impurity = gini_impure2;
+    	else
+    	    impurity = gini_impure1;
+    
+    	left = (double *) ALLOC(numclass * 2, sizeof(double));
+    	right = left + numclass;
+    
+    	tsplit = (int *) ALLOC(maxcat * 2, sizeof(int));
+    	countn = tsplit + maxcat;
+    
+    	awt = (double *) ALLOC(maxcat * 2, sizeof(double));
+    	rate = awt + maxcat;
+    
+    	if (maxcat > 0) {
+    	    graycode_init0(maxcat);
+    	    ccnt = (double **) ALLOC(numclass, sizeof(double *));
+    	    ccnt[0] = (double *) ALLOC(numclass * maxcat, sizeof(double));
+    	    for (i = 1; i < numclass; i++)
+    		ccnt[i] = ccnt[i - 1] + maxcat;
+    	}
+    	i = 3 * numclass + numclass * numclass;
+    	prior = (double *) ALLOC(i, sizeof(double));
+    	aprior = prior + numclass;
+    	freq = aprior + numclass;
+    	loss = freq + numclass;
+    
+    	for (i = 0; i < numclass; i++)
+    	    freq[i] = 0;
+    	temp = 0;
+    	for (i = 0; i < n; i++) {
+    	    j = (int) *y[i] - 1;
+    	    freq[j] += wt[i];
+    	    temp += wt[i];      /* sum total of weights */
+    	}
+    	for (i = 0; i < numclass; i++)
+    	    freq[i] /= temp;    /* relative frequency */
+    
+    	temp = 0;
+    	for (i = 0; i < numclass; i++) {
+    	    prior[i] = parm[i];
+    	    aprior[i] = 0;
+    	    for (j = 0; j < numclass; j++) {
+    		k = numclass * j + i;
+    		loss[k] = parm[numclass + k];
+    		temp += loss[k] * prior[i];
+    		aprior[i] += loss[k] * prior[i];
+    	    }
+    	}
+    	for (i = 0; i < numclass; i++) {
+    	    if (freq[i] > 0) {  /* watch out for a missing class */
+    		prior[i] /= freq[i];
+    		aprior[i] /= (temp * freq[i]);  /* pi_i / n_i */
+    	    }
+    	}
     }
     *size = 2 + numclass;
     return 0;
@@ -140,8 +140,7 @@ ginidev(int n, double **y, double *value, double *risk, double *wt)
     }
 
     value[0] = max + 1;         /* remember: external groups start at 1 */
-    for (i = 0; i < numclass; i++)
-	value[i + 1] = freq[i];
+    for (i = 0; i < numclass; i++) value[i + 1] = freq[i];
     value[numclass + 1] = prob;
     *risk = dev;
 }

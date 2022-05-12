@@ -299,7 +299,7 @@ void
           else direction = RIGHT;
         }
       }
-      Rprintf("\n \n ");
+      if (log_debug) Rprintf("\n \n ");
     }
     
     

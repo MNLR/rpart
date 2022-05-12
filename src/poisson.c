@@ -29,23 +29,23 @@ poissoninit(int n, double *y[], int maxcat, char **error,
     }
     /* check data */
     if (who == 1) {
-	for (i = 0; i < n; i++) {
-	    if (y[i][0] <= 0) {
-		*error = _("Invalid time point");
-		return 1;
-	    }
-	    if (y[i][1] < 0) {
-		*error = _("Invalid event count");
-		return 1;
-	    }
-	}
+    	for (i = 0; i < n; i++) {
+    	    if (y[i][0] <= 0) {
+    		*error = _("Invalid time point");
+    		return 1;
+    	    }
+    	    if (y[i][1] < 0) {
+    		*error = _("Invalid event count");
+    		return 1;
+    	    }
+    	}
     }
     /* compute the overall hazard rate */
     event = 0;
     time = 0;
     for (i = 0; i < n; i++) {
-	event += y[i][1] * wt[i];
-	time += y[i][0] * wt[i];
+    	event += y[i][1] * wt[i];
+    	time += y[i][0] * wt[i];
     }
 
     /*
@@ -113,8 +113,8 @@ poissondev(int n, double **y, double *value, double *risk, double *wt)
      * first get the overall estimate of lambda
      */
     for (i = 0; i < n; i++) {
-	death += y[i][1] * wt[i];
-	time += y[i][0] * wt[i];
+    	death += y[i][1] * wt[i];
+    	time += y[i][0] * wt[i];
     }
     lambda = (death + exp_alpha) / (time + exp_beta);
 
