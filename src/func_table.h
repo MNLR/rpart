@@ -174,6 +174,22 @@ extern void multiBinaryGammaEntropy_split(int n, double *y[], double *x, int ncl
 extern double multiBinaryGammaEntropy_pred(double *y, double *yhat);
 
 
+extern int MSEgammaDeviance_init(int n, double *y[], int maxcat, char **error,
+                               double *parm, int *size, int who, double *wt);
+extern void MSEgammaDeviance_eval(int n, double *y[], double *value, double *risk, double *wt);
+extern void MSEgammaDeviance_split(int n, double *y[], double *x, int nclass,
+                                 int edge, double *improve, double *split, int *csplit,
+                                 double myrisk, double *wt);
+extern double  MSEgammaDeviance_pred(double *y, double *yhat);
+
+
+extern int MSEbinaryEntropyGammaDeviance_init(int n, double *y[], int maxcat, char **error,
+                                 double *parm, int *size, int who, double *wt);
+extern void MSEbinaryEntropyGammaDeviance_eval(int n, double *y[], double *value, double *risk, double *wt);
+extern void MSEbinaryEntropyGammaDeviance_split(int n, double *y[], double *x, int nclass,
+                                   int edge, double *improve, double *split, int *csplit,
+                                   double myrisk, double *wt);
+extern double  MSEbinaryEntropyGammaDeviance_pred(double *y, double *yhat);
 
 static struct {
     int (*init_split) ();
@@ -198,7 +214,10 @@ static struct {
     {binaryMultiEntropy_init, binaryMultiEntropy_split, binaryMultiEntropy_eval, binaryMultiEntropy_pred},
     {binaryMultiEntropyCond_init, binaryMultiEntropyCond_split, binaryMultiEntropyCond_eval, binaryMultiEntropyCond_pred},
     {binaryMargEntropyCond_init, binaryMargEntropyCond_split, binaryMargEntropyCond_eval, binaryMargEntropyCond_pred},
-    {multiBinaryGammaEntropy_init, multiBinaryGammaEntropy_split, multiBinaryGammaEntropy_eval, multiBinaryGammaEntropy_pred}
+    {multiBinaryGammaEntropy_init, multiBinaryGammaEntropy_split, multiBinaryGammaEntropy_eval, multiBinaryGammaEntropy_pred},
+    {MSEgammaDeviance_init, MSEgammaDeviance_split, MSEgammaDeviance_eval, MSEgammaDeviance_pred},
+    {MSEbinaryEntropyGammaDeviance_init, MSEbinaryEntropyGammaDeviance_split, MSEbinaryEntropyGammaDeviance_eval, MSEbinaryEntropyGammaDeviance_pred},
+    
 };
 
-#define NUM_METHODS 18        /* size of the above structure */
+#define NUM_METHODS 20        /* size of the above structure */

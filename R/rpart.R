@@ -22,7 +22,9 @@ rpart <-
                       "binaryMultiEntropy",
                       "binaryMultiEntropyCond", 
                       "binaryMargEntropyCond", 
-                      "multiBinaryGammaEntropy")
+                      "multiBinaryGammaEntropy",
+                      "MSEgammaDeviance",
+                      "MSEbinaryEntropyGammaDeviance")
     
 
 
@@ -70,8 +72,10 @@ rpart <-
         method == "binaryMultiEntropy"  || 
         method == "binaryMultiEntropyCond" ||
         method == "binaryMargEntropyCond" ||
-        method == "multiBinaryGammaEntropy"){
-      if (is.null(ncol(Y)) || ncol(Y) == 1) stop("For multivariable methods y must be a 2D matrix")
+        method == "multiBinaryGammaEntropy" ||
+        method == "MSEgammaDeviance" ||
+        method == "MSEbinaryEntropyGammaDeviance"){
+        if (is.null(ncol(Y)) || ncol(Y) == 1) stop("For multivariable methods y must be a 2D matrix")
       parms <- ncol(Y)
     } else if ( method == "binaryCrossEntropyMultivarCorPenalization" ){
       if (is.null(ncol(Y)) || ncol(Y) == 1) stop("For method 'binaryCrossEntropyMultivarCorPenalization' y must be a 2D matrix")
