@@ -24,7 +24,8 @@ rpart <-
                       "binaryMargEntropyCond", 
                       "multiBinaryGammaEntropy",
                       "MSEgammaDeviance",
-                      "MSEbinaryEntropyGammaDeviance")
+                      "MSEbinaryEntropyGammaDeviance",
+                      "binaryDoubleEntropyGammaDeviance")
     
 
 
@@ -68,13 +69,14 @@ rpart <-
       }
     }
     
-    if (method == "binaryCrossEntropyMultivar" ||
-        method == "binaryMultiEntropy"  || 
-        method == "binaryMultiEntropyCond" ||
-        method == "binaryMargEntropyCond" ||
-        method == "multiBinaryGammaEntropy" ||
-        method == "MSEgammaDeviance" ||
-        method == "MSEbinaryEntropyGammaDeviance"){
+    if (method %in% c("binaryCrossEntropyMultivar",
+                      "binaryMultiEntropy",
+                      "binaryMultiEntropyCond",
+                      "binaryMargEntropyCond",
+                      "multiBinaryGammaEntropy" ,
+                      "MSEgammaDeviance",
+                      "MSEbinaryEntropyGammaDeviance",
+                      "binaryDoubleEntropyGammaDeviance")){
         if (is.null(ncol(Y)) || ncol(Y) == 1) stop("For multivariable methods y must be a 2D matrix")
       parms <- ncol(Y)
     } else if ( method == "binaryCrossEntropyMultivarCorPenalization" ){
