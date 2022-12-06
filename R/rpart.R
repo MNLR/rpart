@@ -26,7 +26,8 @@ rpart <-
                       "MSEgammaDeviance",
                       "MSEbinaryEntropyGammaDeviance",
                       "binaryDoubleEntropyGammaDeviance", 
-                      "multiMSE")
+                      "multiMSE",
+                      "mae")
     
 
 

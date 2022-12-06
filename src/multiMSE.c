@@ -19,8 +19,9 @@ int multiMSE_init(int n, double *y[], int maxcat, char **error,
   }
   
   *size = 2;  // 
-  return 0;
   if (log_debug) Rprintf("Training model with multiMSE (%d variables) \n", size);
+  
+  return 0;
 }
 
 

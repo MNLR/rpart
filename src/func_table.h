@@ -207,6 +207,13 @@ extern void  multiMSE_split(int n, double *y[], double *x, int nclass,
                                                     double myrisk, double *wt);
 extern double  multiMSE_pred(double *y, double *yhat);
 
+extern int  mae_init(int n, double *y[], int maxcat, char **error,
+                          double *parm, int *size, int who, double *wt);
+extern void  mae_eval(int n, double *y[], double *value, double *risk, double *wt);
+extern void  mae_split(int n, double *y[], double *x, int nclass,
+                            int edge, double *improve, double *split, int *csplit,
+                            double myrisk, double *wt);
+extern double  mae_pred(double *y, double *yhat);
 
 
 static struct {
@@ -236,7 +243,8 @@ static struct {
     {MSEgammaDeviance_init, MSEgammaDeviance_split, MSEgammaDeviance_eval, MSEgammaDeviance_pred},
     {MSEbinaryEntropyGammaDeviance_init, MSEbinaryEntropyGammaDeviance_split, MSEbinaryEntropyGammaDeviance_eval, MSEbinaryEntropyGammaDeviance_pred},
     {binaryDoubleEntropyGammaDeviance_init, binaryDoubleEntropyGammaDeviance_split, binaryDoubleEntropyGammaDeviance_eval, binaryDoubleEntropyGammaDeviance_pred},
-    {multiMSE_init, multiMSE_split, multiMSE_eval, multiMSE_pred}
+    {multiMSE_init, multiMSE_split, multiMSE_eval, multiMSE_pred},
+    {mae_init, mae_split, mae_eval, mae_pred}
 };
 
-#define NUM_METHODS 22       /* size of the above structure */
+#define NUM_METHODS 23       /* size of the above structure */
