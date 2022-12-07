@@ -27,7 +27,8 @@ rpart <-
                       "MSEbinaryEntropyGammaDeviance",
                       "binaryDoubleEntropyGammaDeviance", 
                       "multiMSE",
-                      "mae")
+                      "mae",
+                      "msemae")
     
 
 
@@ -79,7 +80,7 @@ rpart <-
                       "MSEgammaDeviance",
                       "MSEbinaryEntropyGammaDeviance",
                       "binaryDoubleEntropyGammaDeviance",
-                      "multiMSE")){
+                      "multiMSE", "msemae")){
         if (is.null(ncol(Y)) || ncol(Y) == 1) stop("For multivariable methods y must be a 2D matrix")
       parms <- ncol(Y)
     } else if ( method == "binaryCrossEntropyMultivarCorPenalization" ){

@@ -216,6 +216,16 @@ extern void  mae_split(int n, double *y[], double *x, int nclass,
 extern double  mae_pred(double *y, double *yhat);
 
 
+
+extern int  msemae_init(int n, double *y[], int maxcat, char **error,
+                     double *parm, int *size, int who, double *wt);
+extern void  msemae_eval(int n, double *y[], double *value, double *risk, double *wt);
+extern void  msemae_split(int n, double *y[], double *x, int nclass,
+                       int edge, double *improve, double *split, int *csplit,
+                       double myrisk, double *wt);
+extern double  msemae_pred(double *y, double *yhat);
+
+
 static struct {
     int (*init_split) ();
     void (*choose_split) ();
@@ -244,7 +254,8 @@ static struct {
     {MSEbinaryEntropyGammaDeviance_init, MSEbinaryEntropyGammaDeviance_split, MSEbinaryEntropyGammaDeviance_eval, MSEbinaryEntropyGammaDeviance_pred},
     {binaryDoubleEntropyGammaDeviance_init, binaryDoubleEntropyGammaDeviance_split, binaryDoubleEntropyGammaDeviance_eval, binaryDoubleEntropyGammaDeviance_pred},
     {multiMSE_init, multiMSE_split, multiMSE_eval, multiMSE_pred},
-    {mae_init, mae_split, mae_eval, mae_pred}
+    {mae_init, mae_split, mae_eval, mae_pred},
+    {msemae_init, msemae_split, msemae_eval, msemae_pred}
 };
 
-#define NUM_METHODS 23       /* size of the above structure */
+#define NUM_METHODS 24       /* size of the above structure */
